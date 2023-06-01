@@ -1,0 +1,74 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jwt_security_spring_boot
+    username:
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+    show_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host:
+    port:
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  security:
+
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            redirectUri: "{baseUrl}/api/v1/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            client-id:
+            client-secret:
+            redirectUri: "{baseUrl}/api/v1/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            client-id:
+            client-secret:
+            redirectUri: "{baseUrl}/api/v1/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+        provider:
+          facebook:
+              authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+              tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+              userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,email,first_name,middle_name,last_name,name,verified,picture.width(250).height(250)
+              userNameAttribute: id
+app:
+  auth:
+    jwt:
+      access-token-secret-key:
+      refresh-token-secret-key:
+      access-token-expiration-in-min: 5
+      refresh-token-expiration-in-day: 30
+      refresh-token-rotation: false
+#  cors:
+#    allowedOrigins: http://localhost:3000 # Comma separated list of allowed origins
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
